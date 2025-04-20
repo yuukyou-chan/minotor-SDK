@@ -1,5 +1,5 @@
 {
-  "name": "minotor-SDK",
+  "name": "monitor-SDK",
   "private": true,
   "scripts": {
     "build": "turbo run build",

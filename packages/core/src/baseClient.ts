@@ -13,7 +13,7 @@ export class Monitoring {
 
   init(transport: Transport) {
     this.transport = transport;
-    this.options.integration.forEach((integration: Integration) => {
+    this.options.integrations.forEach((integration: Integration) => {
       integration.init(transport);
     });
   }

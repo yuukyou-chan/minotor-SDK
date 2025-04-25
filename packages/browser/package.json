@@ -26,9 +26,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
+    "@yunshu/monitor-sdk-core": "workspace:*",
     "tsup": "^8.4.0",
     "typescript": "5.8.2",
-    "@yunshu/monitor-sdk-core": "workspace:*"
+    "web-vitals": "5.0.0-rc.1"
   }
 }

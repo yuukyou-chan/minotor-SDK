@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
+  "include": ["src"],
   "compilerOptions": {
     "moduleResolution": "node",
     // package specific compiler options
@@ -9,10 +9,6 @@
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "outDir": "build/types",
-    "baseUrl": ".",
-    "paths": {
-      "web-vitals": ["node_modules/web-vitals/dist/web-vitals"]
-    }
+    "outDir": "build/-types"
   }
 }

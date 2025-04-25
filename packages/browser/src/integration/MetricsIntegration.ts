@@ -1,5 +1,6 @@
 import { Integration, Transport } from "@yunshu/monitor-sdk-core";
 import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from "web-vitals";
+import { debounce, isEmpty } from "lodash-es";
 
 export interface MetricsIntegrationOptions {
   /** 是否监控 LCP (最大内容渲染时间) */
@@ -36,7 +37,12 @@ export class MetricsIntegration implements Integration {
   }
 
   init() {
-    const metricsCallbacks = (metrix) => {
+    // 为参数 metrix 显式指定类型，避免隐式 any 类型
+    const metricsCallbacks = (metrix: {
+      name: string;
+      value: number;
+      score: string;
+    }) => {
       this.transport.send({
         type: "METRICS",
         label: metrix.name,

@@ -1,6 +1,5 @@
 import { Integration, Transport } from "@yunshu/monitor-sdk-core";
 import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from "web-vitals";
-import { debounce, isEmpty } from "lodash-es";
 
 export interface MetricsIntegrationOptions {
   /** 是否监控 LCP (最大内容渲染时间) */
@@ -20,10 +19,9 @@ export interface MetricsIntegrationOptions {
 }
 
 export class MetricsIntegration implements Integration {
-  constructor(
-    public transport: Transport,
-    private options: MetricsIntegrationOptions
-  ) {
+  transport: Transport | null = null;
+
+  constructor(private options?: MetricsIntegrationOptions) {
     this.options = {
       onLCP: true,
       onFID: true,
@@ -36,20 +34,30 @@ export class MetricsIntegration implements Integration {
     };
   }
 
-  init() {
-    // 为参数 metrix 显式指定类型，避免隐式 any 类型
-    const metricsCallbacks = (metrix: {
-      name: string;
-      value: number;
-      score: string;
-    }) => {
-      this.transport.send({
+  init(transport: Transport) {
+    this.transport = transport;
+
+    // 为参数 metric 显式指定类型，避免隐式 any 类型
+    const metricsCallbacks = (
+      metric: {
+        name: string;
+        value: number;
+        score?: string;
+      },
+      opts?: any
+    ) => {
+      console.log("metricsCallbacks", metric, opts);
+      this.transport?.send({
         type: "METRICS",
-        label: metrix.name,
-        value: metrix.value,
-        score: metrix.score,
+        label: metric.name,
+        value: metric.value,
+        score: metric.score,
       });
     };
-    if (this.options.onLCP) onLCP(metricsCallbacks);
+    if (this.options?.onLCP) onLCP(metricsCallbacks);
+    if (this.options?.onFID) onFID(metricsCallbacks);
+    if (this.options?.onCLS) onCLS(metricsCallbacks);
+    if (this.options?.onFCP) onFCP(metricsCallbacks);
+    if (this.options?.onTTFB) onTTFB(metricsCallbacks);
   }
 }

@@ -22,6 +22,12 @@ export function init(options: {
   return monitoring;
 }
 
+export { ErrorsIntegration } from "./integrations/ErrorsIntegration";
+
+export { MetricsIntegration } from "./integrations/MetricsIntegration";
+
+export { BrowserTransport } from "./transport";
+
 /**
  * 使用示例：
  *

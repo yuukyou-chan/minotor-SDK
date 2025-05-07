@@ -22,7 +22,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup && pnpm build:types",
     "dev": "tsup --watch",
-    "build:types": "tsc -p tsconfig.types.json"
+    "build:types": "tsc -p tsconfig.types.json",
+    "publish": "npm publish --access public"
   },
   "keywords": [],
   "author": "",

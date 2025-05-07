@@ -1,5 +1,5 @@
 {
-  "name": "browser",
+  "name": "@yunshu/monitor-sdk-browser",
   "version": "1.0.0",
   "description": "",
   "main": "build/cjs/index.js",
@@ -20,20 +20,21 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsup",
-    "dev": "tsup --watch"
+    "build": "tsup && pnpm build:types",
+    "build:types": "tsc -p tsconfig.types.json",
+    "dev": "tsup --watch",
+    "publish": "npm publish --access public"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@yunshu/monitor-sdk-core": "workspace:*",
-    "add": "^2.0.6",
     "lodash-es": "^4.17.21",
     "pnpm": "^10.9.0",
     "tsup": "^8.4.0",
     "typescript": "5.8.2",
-    "web-vitals": "5.0.0-rc.1"
+    "web-vitals": "^4.2.4"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12"

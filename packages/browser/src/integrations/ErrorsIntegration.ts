@@ -1,16 +1,21 @@
 import { Integration, Transport } from "@yunshu/monitor-sdk-core";
 import { getBrowserInfo } from "../utils";
+import { BrowserTransport } from "../transport";
 
 export class ErrorsIntegration implements Integration {
-  constructor(public transport: Transport) {}
+  transport: Transport | null = null;
 
-  init() {
+  constructor() {}
+
+  init(transport: Transport) {
+    this.transport = transport;
+
     // js 错误
     window.addEventListener(
       "error",
       (event) => {
         if (event instanceof ErrorEvent) {
-          this.transport.send({
+          this.transport?.send({
             type: "JS_ERROR",
             message: event.message,
             file: event.filename,
@@ -30,12 +35,13 @@ export class ErrorsIntegration implements Integration {
       (event) => {
         const target = event.target as HTMLElement;
         if (target?.tagName) {
-          this.transport.send({
+          this.transport?.send({
             type: "RESOURCE_ERROR",
             tagName: target.tagName,
             url:
               (target as HTMLImageElement).src ||
               (target as HTMLLinkElement).href,
+            browserInfo: getBrowserInfo(),
           });
         }
       },
@@ -44,9 +50,10 @@ export class ErrorsIntegration implements Integration {
 
     // Promise 错误
     window.addEventListener("unhandledrejection", (event) => {
-      this.transport.send({
+      this.transport?.send({
         type: "PROMISE_ERROR",
         reason: event.reason?.message || String(event.reason),
+        browserInfo: getBrowserInfo(),
       });
     });
   }

@@ -49,8 +49,8 @@ export class MetricsIntegration implements Integration {
       console.log("metricsCallbacks", metric, opts);
       this.transport?.send({
         type: "METRICS",
-        label: metric.name,
-        value: metric.value,
+        metricName: metric.name,
+        metricValue: metric.value,
         score: metric.score,
       });
     };
